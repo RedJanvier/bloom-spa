@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #2e3d33;
+  --color-forest-dark: #1e2a23;
+  --color-sage: #4a5d52;
+  --color-sage-light: #7b8f83;
+  --color-blush: #e8c9c3;
+  --color-blush-soft: #f4dfdb;
+  --color-cream: #f5efe7;
+  --color-cream-warm: #efe7da;
+  --color-gold: #c9a96e;
+  --color-gold-dark: #a88b53;
+  --color-ink: #1a201d;
+  --color-ink-muted: #5a635d;
+
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-script: "Dancing Script", "Brush Script MT", cursive;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background: var(--color-blush);
+    color: var(--color-forest-dark);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .font-script {
+    font-family: var(--font-script);
+  }
+
+  /* hide scrollbar for horizontal strips */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .bg-noise {
+    background-image:
+      radial-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  .luxe-divider {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold) 50%,
+      transparent
+    );
+    height: 1px;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(232, 201, 195, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.4s linear infinite;
+  }
+
+  @keyframes ken-burns {
+    0%   { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.08) translate(-1%, -1%); }
+  }
+
+  .ken-burns {
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ken-burns, .shimmer { animation: none !important; }
+    html { scroll-behavior: auto; }
+  }
+}

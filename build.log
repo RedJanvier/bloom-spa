@@ -1,0 +1,12 @@
+﻿
+> bloom-spa@0.1.0 build
+> next build
+
+npm : 'next' is not recognized as an internal or external command,
+At line:1 char:1
++ npm run build 2>&1 | Out-File -FilePath build.log -Encoding utf8; Get ...
++ ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ('next' is not r...ternal command,:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+operable program or batch file.
