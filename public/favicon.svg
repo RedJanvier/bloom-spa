@@ -1,0 +1,22 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#2E3D33" rx="8" />
+  <g transform="translate(32, 32)">
+    <!-- Three lotus petals -->
+    <path
+      d="M0 -24 C-7 -14, -7 -4, 0 4 C7 -4, 7 -14, 0 -24 Z"
+      fill="#E8C9C3"
+      opacity="0.95"
+    />
+    <path
+      d="M-18 -10 C-14 0, -7 6, 0 6 C-2 -2, -8 -10, -18 -10 Z"
+      fill="#E8C9C3"
+      opacity="0.78"
+    />
+    <path
+      d="M18 -10 C14 0, 7 6, 0 6 C2 -2, 8 -10, 18 -10 Z"
+      fill="#E8C9C3"
+      opacity="0.78"
+    />
+    <ellipse cx="0" cy="8" rx="14" ry="2.5" fill="#E8C9C3" opacity="0.5" />
+  </g>
+</svg>
