@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { toast } from "sonner";
 import {
   CheckCircle2,
@@ -34,12 +34,22 @@ const DEFAULT_CHANNEL: BookingInput["channel"] = env.notify.whatsappEnabled
     : "whatsapp"
   : "email";
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+const FORM_START = 1.7; // seconds — kicks in after BookingHero settles
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export function BookingForm() {
   const router = useRouter();
   const search = useSearchParams();
   const preselectedSlug = search.get("service") ?? "";
 
   const [submitted, setSubmitted] = useState(false);
+
+  const reduced = useReducedMotion();
 
   const {
     control,
@@ -187,21 +197,43 @@ export function BookingForm() {
   const labelBase =
     "block text-xs font-semibold uppercase tracking-[0.18em] text-forest-dark mb-2";
 
+  const itemTransition = reduced
+    ? { duration: 0 }
+    : { duration: 0.7, ease: EASE };
+
   return (
-    <form
+    <motion.form
       onSubmit={handleSubmit(onSubmit)}
       className="grid gap-10 lg:gap-14 lg:grid-cols-[1fr_1.05fr]"
       noValidate
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: reduced
+            ? { staggerChildren: 0, delayChildren: 0 }
+            : { staggerChildren: 0.12, delayChildren: FORM_START },
+        },
+      }}
     >
       {/* LEFT — preview */}
-      <div className="lg:sticky lg:top-28 self-start order-2 lg:order-1">
+      <motion.div
+        variants={itemVariants}
+        transition={itemTransition}
+        className="lg:sticky lg:top-28 self-start order-2 lg:order-1"
+      >
         <ServicePreview service={selectedService} />
-      </div>
+      </motion.div>
 
       {/* RIGHT — form */}
       <div className="order-1 lg:order-2 space-y-10">
         {/* Step 1 — service */}
-        <fieldset className="space-y-4">
+        <motion.fieldset
+          variants={itemVariants}
+          transition={itemTransition}
+          className="space-y-4"
+        >
           <Step n={1} title="Choose your treatment" />
           <div>
             <label htmlFor="serviceSlug" className={labelBase}>
@@ -231,10 +263,14 @@ export function BookingForm() {
             />
             {errors.serviceSlug && <FieldError>{errors.serviceSlug.message}</FieldError>}
           </div>
-        </fieldset>
+        </motion.fieldset>
 
         {/* Step 2 — date + time */}
-        <fieldset className="space-y-5">
+        <motion.fieldset
+          variants={itemVariants}
+          transition={itemTransition}
+          className="space-y-5"
+        >
           <Step n={2} title="Pick a date & time" />
           <div className="grid gap-6 md:grid-cols-2">
             <div>
@@ -272,10 +308,14 @@ export function BookingForm() {
               {errors.time && <FieldError>{errors.time.message}</FieldError>}
             </div>
           </div>
-        </fieldset>
+        </motion.fieldset>
 
         {/* Step 3 — details */}
-        <fieldset className="space-y-5">
+        <motion.fieldset
+          variants={itemVariants}
+          transition={itemTransition}
+          className="space-y-5"
+        >
           <Step n={3} title="Your details" icon={<User size={14} />} />
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -372,9 +412,13 @@ export function BookingForm() {
               />
             </div>
           )}
-        </fieldset>
+        </motion.fieldset>
 
-        <div className="pt-2">
+        <motion.div
+          variants={itemVariants}
+          transition={itemTransition}
+          className="pt-2"
+        >
           <Button
             type="submit"
             size="lg"
@@ -387,9 +431,9 @@ export function BookingForm() {
           <p className="mt-3 text-xs text-ink-muted">
             By submitting, you agree we may contact you via the chosen channel.
           </p>
-        </div>
+        </motion.div>
       </div>
-    </form>
+    </motion.form>
   );
 }
 
